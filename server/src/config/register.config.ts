@@ -31,6 +31,7 @@ interface EmailInfo {
 
 interface SecurityInfo {
   redirectClientUrl: string;
+  jwtSecretKey: string;
 }
 
 function validateDbType(type: string): SupportedDbType {
@@ -59,5 +60,6 @@ export const EmailInfoConfig = registerAs<EmailInfo> ('email', () => ({
 }));
 
 export const SecurityConfig = registerAs<SecurityInfo> ('security', () => ({
-  redirectClientUrl: process.env.REDIRECT_CLIENT_URL || ''
+  redirectClientUrl: process.env.REDIRECT_CLIENT_URL || '',
+  jwtSecretKey: process.env.JWT_SECRET_KEY || ''
 }));

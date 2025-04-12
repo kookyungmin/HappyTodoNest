@@ -10,7 +10,7 @@ import { EmailModule } from 'src/email/email.module';
     imports: [ TypeOrmModule.forFeature([ UserEntity, ResetPwEmailEntity ]), EmailModule ],
     controllers: [ SecurityController ],
     providers: [ 
-        { provide: SecurityService, useClass: SecurityService } 
+        { provide: SecurityService, useClass: SecurityService }
     ]
 })
 export class SecurityModule {}
