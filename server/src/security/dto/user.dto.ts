@@ -1,7 +1,34 @@
+
 import { Transform } from "class-transformer";
 import { IsEmail, IsString, Matches, MaxLength, MinLength } from "class-validator";
 
-export class CreateUserDto {
+export const userRole = {
+    "SYSADMIN": 0,
+    "ADMIN": 2,
+    "USER": 4
+}
+
+type UserRoleKeyType = keyof typeof userRole;
+type UserRoleValueType = (typeof userRole) [UserRoleKeyType];
+
+export const userStatus = {
+    "ACTIVATE": 0,
+    "DEACTIVATE": 1
+} as const;
+
+type UserStatusKeyType = keyof typeof userStatus;
+type UserStatusValueType = (typeof userStatus) [UserStatusKeyType];
+
+export class UserDomain {
+    id?: number;
+    email: string;
+    name: string;
+    password?: string;
+    role?: UserRoleKeyType;
+    status?: UserStatusKeyType;
+}
+
+export class UserRequest {
     @Transform(params => params.value.trim())
     @IsString()
     @MinLength(3)

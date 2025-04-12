@@ -19,6 +19,20 @@ interface DbInfo {
   poolSize: number;
 }
 
+interface EmailAuth {
+  user: string;
+  pass: string;
+}
+
+interface EmailInfo {
+  service: string;
+  auth: EmailAuth;
+}
+
+interface SecurityInfo {
+  redirectClientUrl: string;
+}
+
 function validateDbType(type: string): SupportedDbType {
   if (supportedDbTypes.includes(type as SupportedDbType)) {
     return type as SupportedDbType;
@@ -26,9 +40,7 @@ function validateDbType(type: string): SupportedDbType {
   throw new InternalServerErrorException(`Unsupported database type: ${type}`);
 }
 
-console.log("##########TTTTTTTT", process.env);
-
-export const dbInfo = registerAs<DbInfo> ('db', () => ({
+export const DbInfoConfig = registerAs<DbInfo> ('db', () => ({
   type: validateDbType(process.env.DB_TYPE || ''),
   host: process.env.DB_HOST || '',
   port: +(process.env.DB_PORT || 3306),
@@ -36,4 +48,16 @@ export const dbInfo = registerAs<DbInfo> ('db', () => ({
   password: process.env.DB_PASS || '',
   database: process.env.DB_NAME || '',
   poolSize: +(process.env.DB_POOL_SIZE || 10)
+}));
+
+export const EmailInfoConfig = registerAs<EmailInfo> ('email', () => ({
+  service: process.env.EMAIL_SERVICE || '',
+  auth: {
+    user: process.env.EMAIL_AUTH_USER || '',
+    pass: process.env.EMAIL_AUTH_PASS || ''
+  }
+}));
+
+export const SecurityConfig = registerAs<SecurityInfo> ('security', () => ({
+  redirectClientUrl: process.env.REDIRECT_CLIENT_URL || ''
 }));
